@@ -1,0 +1,23 @@
+
+*, 
+*::after,
+*::before {
+    margin:0;
+    padding: 0;
+    /*we force inheritance like below. better practice by CSS community. It inherit from body. bkz. box-sizing on body*/
+    box-sizing: inherit;
+}
+
+/*I put this here on base.scss file and not into typography.scss that's because When we did our conversion to rems, this below(font-size: 62.5%;) acts more like an overall setting for how we size our ENTIRE page. This is more base definition for what 1 rem should be.*/
+
+html {
+    /* font-size ı 10 px yapınca 1rem = 10px oluyor*/
+    /* font-size:10px; */
+    /*Pixel kullanmak yerine % kullanmak daha esnek olur*/
+    // This defines what 1rem is
+    font-size: 62.5%;
+}
+
+body {
+    box-sizing: border-box;
+}
