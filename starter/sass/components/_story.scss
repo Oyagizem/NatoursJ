@@ -5,7 +5,14 @@
     background-color: $color-white;
     border-radius:3px;
     padding:6rem;
+    padding-left: 9 rem;
     font-size: $default-font-size;
+    transform: skewX(-12deg);
+
+    //transform skewX() yapınca her şey skew oldu, yamulup büküldü. Bunu düzeltmek için transform:skewX(12deg) kullanacaktık ama 2017 itibarıyle --> in Css, there's currently no way of having 2 transform properties applying at the same time. bkz aşağıda da transform kullanmıştık. O sebeple transform:skewX(12deg) i text e koyuyoruz.
+    & > * {
+
+    }
 
     &__shape {
         width: 15rem;
@@ -20,5 +27,21 @@
         /*If we want the element to look like circle we can then use clip-path property.*/
         -webkit-clip-path: circle(50% at 50% 50%);
         clip-path: circle(50% at 50% 50%);
+
+        //The best way to move around an element that is floated is actually not mess with margins or anything like that. we should just use a transform. İmza Jonas.
+        transform: translateX(-3rem);
+        //Bunu da skew opposit yapmak için buraya koyuyorum.
+        transform: skewX(12deg);
+
     }
+
+    &__img {
+       //Önce width:100% yaptık baktık image ın genişliği yüksekliğinden fazlaymış o zaman height:100% yaptık.
+       height: 100%;
+    }
+
+    &__text {
+        transform:skewX(12deg);
+    } 
+
 }
