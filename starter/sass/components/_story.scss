@@ -1,47 +1,104 @@
 .story {
-    width:75%;
-    margin:0 auto;
-    box-shadow:0 3rem 6rem rgba($color-black, .1);
-    background-color: $color-white;
-    border-radius:3px;
-    padding:6rem;
-    padding-left: 9 rem;
+    width: 75%;
+    margin: 0 auto;
+    box-shadow: 0 3rem 6rem rgba($color-black, .1);
+    background-color: rgba($color-white, .6);
+    border-radius: 3px;
+    padding: 6rem;
+    padding-left: 9rem;
     font-size: $default-font-size;
     transform: skewX(-12deg);
 
     //transform skewX() yapınca her şey skew oldu, yamulup büküldü. Bunu düzeltmek için transform:skewX(12deg) kullanacaktık ama 2017 itibarıyle --> in Css, there's currently no way of having 2 transform properties applying at the same time. bkz aşağıda da transform kullanmıştık. O sebeple transform:skewX(12deg) i text e koyuyoruz.
-    & > * {
+    // & > * {
+    // }
 
+    @include respond(tab-port) {
+        width: 100%;
+        padding: 4rem;
+        padding-left: 6rem;
+    }
+
+    @include respond(phone) {
+        transform: skewX(0);
     }
 
     &__shape {
         width: 15rem;
         height: 15rem;
-        background-color: coral;
         /*We put float left in order to make the rest of the content float around it*/
         float: left;
-        /*This shape-outside, all it does is to define where the content floats around the element(in this case a circle)*/
-        -webkit-shape-outside: circle(50% at 50% 50%);
-        shape-outside: circle(50% at 50% 50%);
-
-        /*If we want the element to look like circle we can then use clip-path property.*/
-        -webkit-clip-path: circle(50% at 50% 50%);
-        clip-path: circle(50% at 50% 50%);
+        
+    /*    This shape-outside, all it does is to define where the content floats around the element(in this case a circle). Fakat bunu feature query'ye yani @supports un içine yazdık SAFARİ bu property yi tanımadığı için
+       -webkit-shape-outside: circle(50% at 50% 50%);
+       shape-outside: circle(50% at 50% 50%) */
 
         //The best way to move around an element that is floated is actually not mess with margins or anything like that. we should just use a transform. İmza Jonas.
-        transform: translateX(-3rem);
+        //transform: translateX(-3rem);
         //Bunu da skew opposit yapmak için buraya koyuyorum.
-        transform: skewX(12deg);
+        //transform: skewX(12deg);
+        // Ama 2 transform olamayacağı için 2sini aynı satırda yazıyorum
+        transform: translateX(-3rem) skewX(12deg);
 
+        position: relative;
+
+        // Bu overflow:hidden ı yuvarlak image ların etrafında kare gibi bir şey oluştuğunda koyduk ve o garip görüntüyü düzeltti:)
+        //(Even if the shape width and height is 15rem, the image still overlaps this element.)
+        overflow: hidden;
+        border-radius: 50%;
+
+        @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+            /*If we want the element to look like circle we can then use clip-path property.*/
+            -webkit-clip-path: circle(50% at 50% 50%);
+            clip-path: circle(50% at 50% 50%);
+            /*This shape-outside, all it does is to define where the content floats around the element(in this case a circle)*/
+            -webkit-shape-outside: circle(50% at 50% 50%);
+            shape-outside: circle(50% at 50% 50%);
+            border-radius: none;
+        }
+
+        @include respond(phone) {
+            transform: translateX(-3rem) skewX(0);
+        }
     }
 
     &__img {
        //Önce width:100% yaptık baktık image ın genişliği yüksekliğinden fazlaymış o zaman height:100% yaptık.
        height: 100%;
+       transform: translateX(-4rem) scale(1.4);
+       backface-visibility: hidden;
+       transition: all .5s;
     }
 
     &__text {
         transform:skewX(12deg);
+
+        @include respond(phone) {
+            transform: skewX(0);
+        }
     } 
 
+    &__caption {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 20%);
+        color:$color-white;
+        text-transform: uppercase;
+        font-size: 1.7rem;
+        text-align: center;
+        opacity: 0;
+        transition: all .5s;
+        
+    }
+
+    &:hover &__caption {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+
+    &:hover &__img {
+        transform: translateX(-4rem) scale(1);
+        filter: blur(3px) brightness(80%);
+    }
 }

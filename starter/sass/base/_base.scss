@@ -8,16 +8,40 @@
     box-sizing: inherit;
 }
 
-/*I put this here on base.scss file and not into typography.scss that's because When we did our conversion to rems, this below(font-size: 62.5%;) acts more like an overall setting for how we size our ENTIRE page. This is more base definition for what 1 rem should be.*/
+/*I put this here on base.scss file and not into typography.scss that's because When we did our conversion to rems, this below(font-size: 62.5%;) acts more like an overall setting for how we size our ENTIRE page. 
+This is more base definition for what 1 rem should be.*/
 
 html {
     /* font-size ı 10 px yapınca 1rem = 10px oluyor*/
     /* font-size:10px; */
     /*Pixel kullanmak yerine % kullanmak daha esnek olur*/
     // This defines what 1rem is
-    font-size: 62.5%;
+    font-size: 62.5%;   //1rem = 10px --> 10px/16px = 62.5%
+
+    @include respond(tab-land) {    // width < 1200?
+        font-size: 56.25%;     //1rem = 9px --> 9/16 = 50%
+    }
+
+    @include respond(tab-port) {    // width < 900?
+        font-size: 50%;     //1rem = 8px --> 8/16 = 50%
+    }
+
+    @include respond(big-desktop) {
+        font-size: 75%;     //1rem = 12 --> 12/16
+    }
 }
 
 body {
     box-sizing: border-box;
+    padding: 3rem;
+
+//Küçük ekranda beyaz çerçeveyi bu şekilde yokediyoruz.
+    @include respond(tab-port) { 
+        padding: 0;
+    }
+}
+
+::selection {
+    background-color: $color-primary;
+    color: $color-white;
 }
